@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	port := os.Getenv("PORT")
 
 	// Echo instance
 	e := echo.New()
@@ -16,12 +15,14 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
+	e.Use(middleware.RequestID())
 
 	// Routes
 	e.GET("/", hello)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":" + port))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
 
 // Handler
